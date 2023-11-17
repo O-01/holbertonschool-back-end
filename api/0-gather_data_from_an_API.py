@@ -18,8 +18,8 @@ and non-completed tasks
 with 1 tabulation and 1 space before the TASK_TITLE)
 """
 import json
-import urllib.request
 import sys
+import urllib.request
 
 
 def gather_data_from_an_API(user_id):
