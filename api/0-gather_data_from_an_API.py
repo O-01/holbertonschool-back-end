@@ -36,34 +36,27 @@ def gather_data_from_an_API(user_id):
         person['name'] for person in users if person['id'] == user_id
     )
     done = sum(
-        1 if todo[
-            'userId'
-        ] == user_id and todo[
-            'completed'
-        ] is True else 0 for todo in todos
+        1 if todo['userId'] == user_id and todo['completed'] is True else 0
+        for todo in todos
     )
-    total_tasks = sum(
-        1 if todo[
-            'userId'
-        ] == user_id else 0 for todo in todos
-    )
+    total_tasks = sum(1 if todo['userId'] == user_id else 0 for todo in todos)
     dones = list(
         filter(
-            lambda confirmed: confirmed, (
-                todo[
-                    'title'
-                ] for todo in todos if todo[
-                    'userId'
-                ] == user_id and todo[
-                    'completed'
-                ] is True
+            lambda confirmed: confirmed,
+            (
+                todo['title']
+                for todo in todos
+                if todo['userId'] == user_id and todo['completed'] is True
             )
         )
     )
     print(
         f'Employee {employee_name} is done with tasks({done}/{total_tasks}):'
     )
-    [print(f'\t {task}') for task in dones]
+    [
+        print(f'\t {task}')
+        for task in dones
+    ]
 
 
 if __name__ == '__main__':
