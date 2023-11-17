@@ -28,7 +28,7 @@ import sys
 import urllib.request
 
 
-def export_to_CSV(user_id):
+def export_to_JSON(user_id):
     """ Gathers todo list data for specified user """
     todos_in = urllib.request.urlopen(
         'https://jsonplaceholder.typicode.com/todos'
@@ -65,4 +65,4 @@ if __name__ == '__main__':
         sys.exit("Please input employee's ID number (whole digit)")
     else:
         user_id = int(sys.argv[1])
-    export_to_CSV(user_id)
+    export_to_JSON(user_id)
