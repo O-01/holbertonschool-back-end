@@ -3,33 +3,38 @@
 Using what you did in the task #0, extend your Python script to export data in
 the JSON format.
 Requirements:
--Records all tasks that are owned by this employee
+-Records all tasks from all employees
 -Format must be:
 {
-    "USER_ID":
+    "USER_ID 1":
     [
         {
+            "username": "USERNAME",
             "task": "TASK_TITLE",
-            "completed": TASK_COMPLETED_STATUS,
-            "username": "USERNAME"
+            "completed": TASK_COMPLETED_STATUS}
         },
         {
+            "username": "USERNAME",
             "task": "TASK_TITLE",
-            "completed": TASK_COMPLETED_STATUS,
-            "username": "USERNAME"
+            "completed": TASK_COMPLETED_STATUS
         },
         et al.
-    ]
+    ],
+    "USER_ID 2":
+    [
+        ...
+    ],
+    et al.
 }
--File name must be: USER_ID.json
+-File name must be: todo_all_employees.json
 """
 import json
 import sys
 import urllib.request
 
 
-def export_to_JSON(user_id):
-    """ Gathers todo list data for specified user & exports to JSON file """
+def dictionary_of_list_of_dictionaries():
+    """ Gathers todo list data for all users & exports to JSON file """
     try:
         todos_in = urllib.request.urlopen(
             'https://jsonplaceholder.typicode.com/todos',
@@ -41,12 +46,6 @@ def export_to_JSON(user_id):
             timeout=30
         ).read()
         users = json.loads(users_in.decode('utf-8'))
-        employee_name = next(
-            person['username'] for person in users if person['id'] == user_id
-        )
-        found = next(
-            todo['userId'] for todo in todos if todo['userId'] == user_id
-        )
     except urllib.request.URLError as url_error:
         print('ERROR')
         if hasattr(url_error, 'code'):
@@ -54,27 +53,23 @@ def export_to_JSON(user_id):
         if hasattr(url_error, 'reason'):
             print(f' : {url_error.reason}')
         sys.exit('Please try again.')
-    except StopIteration:
-        sys.exit("ID not found.")
     employee_task_data = {
-        found: list(
+        user_id['userId']: list(
             {
+                'username': next(
+                    person['username']
+                    for person in users if person['id'] == todo['userId']
+                ),
                 'task': todo['title'],
                 'completed': todo['completed'],
-                'username': employee_name
             }
-            for todo in todos if todo['userId'] == user_id
+            for todo in todos if todo['userId'] == user_id['userId']
         )
+        for user_id in todos
     }
-    with open(f'{user_id}.json', 'w') as json_file:
+    with open('todo_all_employees.json', 'w') as json_file:
         json.dump(employee_task_data, json_file)
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        sys.exit("Please enter only the requested employee's ID number")
-    elif sys.argv[1].isdigit() is False:
-        sys.exit("Please input employee's ID number (whole digit)")
-    else:
-        user_id = int(sys.argv[1])
-    export_to_JSON(user_id)
+    dictionary_of_list_of_dictionaries()

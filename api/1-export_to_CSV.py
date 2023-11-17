@@ -14,18 +14,30 @@ import urllib.request
 
 
 def export_to_CSV(user_id):
-    """ Gathers todo list data for specified user """
-    todos_in = urllib.request.urlopen(
-        'https://jsonplaceholder.typicode.com/todos'
-    ).read()
-    todos = json.loads(todos_in.decode('utf-8'))
-    users_in = urllib.request.urlopen(
-        'https://jsonplaceholder.typicode.com/users'
-    ).read()
-    users = json.loads(users_in.decode('utf-8'))
-    employee_name = next(
-        person['username'] for person in users if person['id'] == user_id
-    )
+    """ Gathers todo list data for specified user & exports to CSV file """
+    try:
+        todos_in = urllib.request.urlopen(
+            'https://jsonplaceholder.typicode.com/todos',
+            timeout=30
+        ).read()
+        todos = json.loads(todos_in.decode('utf-8'))
+        users_in = urllib.request.urlopen(
+            'https://jsonplaceholder.typicode.com/users',
+            timeout=30
+        ).read()
+        users = json.loads(users_in.decode('utf-8'))
+        employee_name = next(
+            person['username'] for person in users if person['id'] == user_id
+        )
+    except urllib.request.URLError as url_error:
+        print('ERROR')
+        if hasattr(url_error, 'code'):
+            print(f' : {url_error.code}')
+        if hasattr(url_error, 'reason'):
+            print(f' : {url_error.reason}')
+        sys.exit('Please try again.')
+    except StopIteration:
+        sys.exit("ID not found.")
     owned_tasks = {
         todo['title']: todo['completed']
         for todo in todos if todo['userId'] == user_id
@@ -40,9 +52,9 @@ def export_to_CSV(user_id):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        sys.exit("Please input only the requested employee's ID number")
+        sys.exit("Please enter only the requested employee's ID number")
     elif sys.argv[1].isdigit() is False:
-        sys.exit("Please input employee's ID number (whole digit)")
+        sys.exit("Please enter employee's ID number (whole digit)")
     else:
         user_id = int(sys.argv[1])
     export_to_CSV(user_id)
