@@ -30,10 +30,6 @@ def export_to_CSV(user_id):
         todo['title']: todo['completed']
         for todo in todos if todo['userId'] == user_id
     }
-    # [
-    #     print(f'"{user_id}", "{employee_name}", "{done}", "{task}"')
-    #     for task, done in owned_tasks.items()
-    # ]
     with open(f'{user_id}.csv', 'w') as csv_file:
         csv_outfile = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
         [
