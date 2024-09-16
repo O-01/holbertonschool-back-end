@@ -90,7 +90,7 @@ sylvain@ubuntu$
 ```
 #
 #### Repo:
-- GitHub repository: `holbertonschool-back-end`
+- GitHub repository: `atlas-back-end`
 - Directory: `api`
 - File: `0-gather_data_from_an_API.py`
 #
@@ -130,7 +130,7 @@ sylvain@ubuntu$
 ```
 #
 #### Repo:
-- GitHub repository: `holbertonschool-back-end`
+- GitHub repository: `atlas-back-end`
 - Directory: `api`
 - File: `1-export_to_CSV.py`
 #
@@ -150,7 +150,7 @@ sylvain@ubuntu$ cat 2.json
 ```
 #
 #### Repo:
-- GitHub repository: `holbertonschool-back-end`
+- GitHub repository: `atlas-back-end`
 - Directory: `api`
 - File: `2-export_to_JSON.py`
 #
@@ -170,7 +170,7 @@ sylvain@ubuntu$ cat todo_all_employees.json
 ```
 #
 #### Repo:
-- GitHub repository: `holbertonschool-back-end`
+- GitHub repository: `atlas-back-end`
 - Directory: `api`
 - File: `3-dictionary_of_list_of_dictionaries.py`
 #
